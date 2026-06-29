@@ -3,35 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calificaciones · Dashboard</title>
+<title>Boletín · 1° Trimestre</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:           #12141c;
-  --surface:      #1a202c;
-  --surface2:     #212736;
-  --surface3:     #272e3f;
-  --border:       #2a3347;
-  --border-light: #333d54;
-  --text:         #e2e8f0;
-  --text-muted:   #64748b;
-  --text-dim:     #94a3b8;
-  --accent:       #818cf8;
-  --accent-glow:  rgba(129,140,248,.18);
-  --accent-border:rgba(129,140,248,.35);
-  --green:        #34d399;
-  --green-dim:    rgba(52,211,153,.12);
-  --yellow:       #fbbf24;
-  --yellow-dim:   rgba(251,191,36,.12);
-  --red:          #f87171;
-  --red-dim:      rgba(248,113,113,.13);
-  --sidebar-w:    260px;
-  --topbar-h:     64px;
-  --radius:       10px;
-  --transition:   .22s cubic-bezier(.4,0,.2,1);
+  --bg:            #0f111a;
+  --surface:       #1e293b;
+  --surface2:      #263044;
+  --surface3:      #2d3a52;
+  --border:        #2e3d57;
+  --border2:       #3a4d6a;
+  --text:          #e2e8f0;
+  --muted:         #64748b;
+  --dim:           #94a3b8;
+  --accent:        #7c86ff;
+  --accent-soft:   rgba(124,134,255,.16);
+  --accent-ring:   rgba(124,134,255,.38);
+  --green:         #34d399;
+  --green-soft:    rgba(52,211,153,.13);
+  --yellow:        #fbbf24;
+  --yellow-soft:   rgba(251,191,36,.13);
+  --red:           #fb7185;
+  --red-soft:      rgba(251,113,133,.14);
+  --tut-glow:      0 0 0 3px var(--accent-ring), 0 0 24px rgba(124,134,255,.25);
+  --r:             10px;
+  --tr:            .22s cubic-bezier(.4,0,.2,1);
+  --sidebar-w:     268px;
 }
 
 html { font-size: 15px; }
@@ -40,484 +40,488 @@ body {
   color: var(--text);
   font-family: 'Inter', system-ui, sans-serif;
   min-height: 100vh;
-  overflow-x: hidden;
+  line-height: 1.55;
 }
 
-/* ─── Overlay ───────────────────────────────────────── */
-#overlay {
-  position: fixed; inset: 0; z-index: 40;
-  background: rgba(0,0,0,.55);
+/* ════════════════════════════════════════
+   TUTORIAL OVERLAY
+════════════════════════════════════════ */
+#tutOverlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(8,10,18,.78);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity var(--tr);
+}
+#tutOverlay.hidden { opacity: 0; pointer-events: none; }
+
+#tutCard {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  width: min(480px, 92vw);
+  box-shadow: 0 32px 64px rgba(0,0,0,.6);
+  overflow: hidden;
+  animation: tutSlideIn .35s cubic-bezier(.34,1.3,.64,1) both;
+}
+@keyframes tutSlideIn {
+  from { opacity:0; transform: translateY(28px) scale(.96); }
+  to   { opacity:1; transform: translateY(0) scale(1); }
+}
+
+.tut-header {
+  background: linear-gradient(135deg, #1a1f35 0%, #1e2a40 100%);
+  padding: 1.5rem 1.75rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.tut-step-dots {
+  display: flex; gap: .45rem; margin-bottom: .9rem;
+}
+.tut-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--border2);
+  transition: background var(--tr), transform var(--tr);
+}
+.tut-dot.active { background: var(--accent); transform: scale(1.25); }
+.tut-dot.done   { background: var(--green); }
+.tut-title {
+  font-size: 1.15rem; font-weight: 700; color: var(--text);
+  line-height: 1.25;
+}
+.tut-subtitle {
+  font-size: .8rem; color: var(--muted); margin-top: .3rem;
+}
+.tut-step-label {
+  position: absolute; top: 1.5rem; right: 1.75rem;
+  font-size: .68rem; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-ring);
+  border-radius: 999px; padding: .2rem .6rem;
+}
+
+.tut-body {
+  padding: 1.5rem 1.75rem;
+}
+.tut-icon {
+  font-size: 2.2rem; margin-bottom: .85rem;
+  display: block;
+}
+.tut-desc {
+  font-size: .9rem; color: var(--dim); line-height: 1.65;
+}
+.tut-desc strong { color: var(--text); font-weight: 600; }
+.tut-highlight-note {
+  margin-top: .9rem;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 6px 6px 0;
+  padding: .6rem .9rem;
+  font-size: .8rem; color: var(--dim);
+}
+.tut-highlight-note strong { color: var(--accent); }
+
+.tut-footer {
+  padding: 1.1rem 1.75rem 1.4rem;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: .75rem;
+}
+.btn-skip {
+  background: none; border: 1px solid var(--border2);
+  color: var(--muted); border-radius: 8px;
+  padding: .5rem 1rem; font-family: inherit; font-size: .84rem;
+  cursor: pointer; transition: border-color var(--tr), color var(--tr);
+}
+.btn-skip:hover { border-color: var(--dim); color: var(--text); }
+.btn-next {
+  flex: 1;
+  background: var(--accent); color: #fff;
+  border: none; border-radius: 8px;
+  padding: .55rem 1.2rem;
+  font-family: inherit; font-size: .9rem; font-weight: 600;
+  cursor: pointer;
+  transition: opacity var(--tr), transform var(--tr);
+  display: flex; align-items: center; justify-content: center; gap: .5rem;
+}
+.btn-next:hover { opacity: .88; transform: translateY(-1px); }
+.btn-next:active { transform: translateY(0); }
+
+/* tutorial spotlight ring on elements */
+.tut-spotlight {
+  position: relative; z-index: 201;
+  border-radius: var(--r);
+  box-shadow: var(--tut-glow) !important;
+  transition: box-shadow .3s;
+}
+
+/* ════════════════════════════════════════
+   SIDEBAR
+════════════════════════════════════════ */
+#sbOverlay {
+  position: fixed; inset: 0; z-index: 90;
+  background: rgba(0,0,0,.5);
   opacity: 0; pointer-events: none;
-  transition: opacity var(--transition);
+  transition: opacity var(--tr);
   backdrop-filter: blur(2px);
 }
-#overlay.active { opacity: 1; pointer-events: all; }
+#sbOverlay.show { opacity: 1; pointer-events: all; }
 
-/* ─── Sidebar ───────────────────────────────────────── */
 #sidebar {
-  position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
-  width: var(--sidebar-w);
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: var(--sidebar-w); z-index: 100;
   background: var(--surface);
   border-right: 1px solid var(--border);
   transform: translateX(calc(-1 * var(--sidebar-w)));
-  transition: transform var(--transition);
+  transition: transform var(--tr);
   display: flex; flex-direction: column;
-  overflow: hidden;
+  box-shadow: 4px 0 30px rgba(0,0,0,.4);
 }
-#sidebar.open { transform: translateX(0); box-shadow: 4px 0 40px rgba(0,0,0,.5); }
+#sidebar.open { transform: translateX(0); }
 
-.sidebar-header {
-  padding: 1.4rem 1.25rem 1rem;
+.sb-head {
+  padding: 1.3rem 1.2rem 1rem;
   border-bottom: 1px solid var(--border);
 }
-.sidebar-logo {
-  font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--accent); font-weight: 600; margin-bottom: .5rem;
+.sb-eyebrow {
+  font-size: .65rem; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--accent); font-weight: 700; margin-bottom: .4rem;
 }
-.sidebar-title {
-  font-size: 1rem; font-weight: 700; color: var(--text);
-}
-.sidebar-sub {
-  font-size: .72rem; color: var(--text-muted); margin-top: .15rem;
-}
+.sb-title { font-size: .98rem; font-weight: 700; }
+.sb-sub   { font-size: .72rem; color: var(--muted); margin-top: .1rem; }
 
-.sidebar-section {
-  padding: .9rem 1.25rem .4rem;
-  font-size: .65rem; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--text-muted); font-weight: 600;
+.sb-section-label {
+  padding: .8rem 1.2rem .3rem;
+  font-size: .63rem; letter-spacing: .11em; text-transform: uppercase;
+  color: var(--muted); font-weight: 700;
 }
+.sb-nav { flex: 1; overflow-y: auto; padding: 0 .6rem .5rem; }
 
-.sidebar-nav { flex: 1; overflow-y: auto; padding: 0 .75rem .5rem; }
-.nav-item {
-  display: flex; align-items: center; gap: .75rem;
-  padding: .65rem .75rem;
+.sb-item {
+  display: flex; align-items: center; gap: .7rem;
+  padding: .58rem .75rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: background var(--transition), color var(--transition);
-  color: var(--text-dim);
-  font-size: .875rem;
-  font-weight: 500;
-  margin-bottom: 2px;
+  color: var(--dim); font-size: .875rem; font-weight: 500;
+  transition: background var(--tr), color var(--tr);
   border: 1px solid transparent;
-  position: relative;
+  margin-bottom: 2px;
 }
-.nav-item:hover { background: var(--surface2); color: var(--text); }
-.nav-item.active {
-  background: var(--accent-glow);
+.sb-item:hover  { background: var(--surface2); color: var(--text); }
+.sb-item.active {
+  background: var(--accent-soft);
   color: var(--accent);
-  border-color: var(--accent-border);
+  border-color: var(--accent-ring);
 }
-.nav-item.active .nav-icon { opacity: 1; }
-.nav-icon { font-size: 1rem; opacity: .55; flex-shrink: 0; }
-.nav-label { flex: 1; }
-.nav-badge {
+.sb-item .ico { font-size: .95rem; opacity: .6; flex-shrink: 0; }
+.sb-item.active .ico { opacity: 1; }
+.sb-badge {
+  margin-left: auto;
+  background: var(--surface3); color: var(--muted);
+  border-radius: 5px; padding: .1rem .35rem;
   font-family: 'JetBrains Mono', monospace;
   font-size: .68rem; font-weight: 600;
-  background: var(--surface3); color: var(--text-muted);
-  border-radius: 4px; padding: .1rem .35rem;
 }
-.nav-item.active .nav-badge {
-  background: var(--accent-border); color: var(--accent);
-}
+.sb-item.active .sb-badge { background: var(--accent-ring); color: var(--accent); }
 
-.sidebar-divider {
-  margin: .5rem .75rem;
-  border: none; border-top: 1px solid var(--border);
-}
-
-.sidebar-footer {
-  padding: 1rem 1.25rem;
+.sb-divider { margin: .4rem .6rem; border: none; border-top: 1px solid var(--border); }
+.sb-footer {
+  padding: .9rem 1.2rem;
   border-top: 1px solid var(--border);
-  font-size: .72rem; color: var(--text-muted);
-}
-.sidebar-footer strong { color: var(--text-dim); }
-
-/* ─── Main layout ───────────────────────────────────── */
-#main {
-  min-height: 100vh;
-  display: flex; flex-direction: column;
+  font-size: .71rem; color: var(--muted);
 }
 
-/* ─── Topbar ────────────────────────────────────────── */
+/* ════════════════════════════════════════
+   LAYOUT
+════════════════════════════════════════ */
+#main { min-height: 100vh; display: flex; flex-direction: column; }
+
+/* TOPBAR */
 #topbar {
-  height: var(--topbar-h);
-  background: var(--surface);
+  position: sticky; top: 0; z-index: 80;
+  height: 62px;
+  background: rgba(15,17,26,.9);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; gap: 1rem;
+  display: flex; align-items: center; gap: .9rem;
   padding: 0 1.5rem;
-  position: sticky; top: 0; z-index: 30;
 }
-#hamburger {
+#burgerBtn {
   width: 36px; height: 36px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--surface2);
-  transition: border-color var(--transition), background var(--transition);
-  gap: 0; flex-direction: column;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4.5px;
+  border-radius: 8px; border: 1px solid var(--border);
+  background: var(--surface2); cursor: pointer;
+  transition: border-color var(--tr), background var(--tr);
 }
-#hamburger:hover { border-color: var(--accent-border); background: var(--accent-glow); }
-#hamburger .bar {
-  width: 16px; height: 2px; background: var(--text-dim);
-  border-radius: 2px;
-  transition: transform var(--transition), opacity var(--transition), background var(--transition);
-}
-#hamburger .bar + .bar { margin-top: 4px; }
-#hamburger.open .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); background: var(--accent); }
-#hamburger.open .bar:nth-child(2) { opacity: 0; }
-#hamburger.open .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); background: var(--accent); }
+#burgerBtn:hover { border-color: var(--accent-ring); background: var(--accent-soft); }
+#burgerBtn .b { width: 15px; height: 2px; background: var(--dim); border-radius: 2px; transition: transform var(--tr), opacity var(--tr), background var(--tr); }
+#burgerBtn.open .b:nth-child(1) { transform: translateY(6.5px) rotate(45deg); background: var(--accent); }
+#burgerBtn.open .b:nth-child(2) { opacity: 0; }
+#burgerBtn.open .b:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); background: var(--accent); }
 
-.topbar-brand {
-  font-size: .9rem; font-weight: 700; color: var(--text);
-  flex-shrink: 0;
-}
-.topbar-brand span { color: var(--accent); }
+.brand { font-size: .95rem; font-weight: 700; flex-shrink: 0; }
+.brand span { color: var(--accent); }
 
-.search-wrap {
-  flex: 1; max-width: 340px; position: relative;
-}
-.search-ico {
-  position: absolute; left: .75rem; top: 50%; transform: translateY(-50%);
-  color: var(--text-muted); pointer-events: none; font-size: .9rem;
-}
-.search-input {
+.search-wrap { position: relative; flex: 1; max-width: 320px; }
+.search-wrap svg { position: absolute; left: .75rem; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+#searchInput {
   width: 100%;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--text); font-family: inherit; font-size: .85rem;
-  padding: .5rem .85rem .5rem 2.1rem;
-  outline: none;
-  transition: border-color var(--transition), box-shadow var(--transition);
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text);
+  font-family: inherit; font-size: .85rem;
+  padding: .48rem .85rem .48rem 2.1rem;
+  outline: none; transition: border-color var(--tr), box-shadow var(--tr);
 }
-.search-input::placeholder { color: var(--text-muted); }
-.search-input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-glow);
-}
+#searchInput::placeholder { color: var(--muted); }
+#searchInput:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
 
-.topbar-focus-pill {
-  margin-left: auto;
-  display: flex; align-items: center; gap: .4rem;
-  background: var(--accent-glow);
-  border: 1px solid var(--accent-border);
-  border-radius: 999px;
-  padding: .25rem .75rem .25rem .5rem;
-  font-size: .72rem; font-weight: 600; color: var(--accent);
-  opacity: 0; transition: opacity var(--transition);
-  pointer-events: none; flex-shrink: 0;
+.focus-pill {
+  margin-left: auto; display: flex; align-items: center; gap: .4rem;
+  background: var(--accent-soft); border: 1px solid var(--accent-ring);
+  border-radius: 999px; padding: .22rem .7rem .22rem .45rem;
+  font-size: .71rem; font-weight: 600; color: var(--accent);
+  opacity: 0; transition: opacity var(--tr); pointer-events: none; flex-shrink: 0;
 }
-.topbar-focus-pill.visible { opacity: 1; pointer-events: all; }
-.topbar-focus-pill .pill-close {
-  width: 16px; height: 16px; border-radius: 50%;
+.focus-pill.vis { opacity: 1; pointer-events: all; }
+.pill-x {
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--accent-ring); cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  background: var(--accent-border); cursor: pointer; font-size: .65rem;
-  transition: background var(--transition);
+  font-size: .62rem; transition: background var(--tr);
 }
-.topbar-focus-pill .pill-close:hover { background: var(--accent); color: #fff; }
-.result-count {
-  font-size: .75rem; color: var(--text-muted); white-space: nowrap; flex-shrink: 0;
-}
+.pill-x:hover { background: var(--accent); color: #fff; }
 
-/* ─── Page content ──────────────────────────────────── */
-#content {
-  padding: 1.75rem 1.5rem 3rem;
-  flex: 1;
-}
+#rowCount { font-size: .74rem; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
 
-/* ─── Stats grid ─────────────────────────────────────── */
+/* CONTENT */
+#content { padding: 1.75rem 1.5rem 4rem; }
+
+/* STATS */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem; margin-bottom: 1.75rem;
 }
-.stat-card {
+.kpi {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 1.2rem 1.4rem;
+  border-radius: var(--r); padding: 1.15rem 1.35rem;
   position: relative; overflow: hidden;
-  transition: border-color var(--transition);
+  transition: border-color var(--tr);
 }
-.stat-card::after {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  border-radius: var(--radius) var(--radius) 0 0;
-  background: var(--card-accent, var(--accent));
-  opacity: .7;
+.kpi::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--kc, var(--accent));
 }
-.stat-card:hover { border-color: var(--border-light); }
-.stat-label {
-  font-size: .68rem; font-weight: 600; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--text-muted); margin-bottom: .6rem;
+.kpi:hover { border-color: var(--border2); }
+.kpi-label {
+  font-size: .67rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: .55rem;
 }
-.stat-value {
+.kpi-value {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 2.1rem; font-weight: 600; line-height: 1;
-  color: var(--card-accent, var(--accent));
+  font-size: 2.05rem; font-weight: 600; line-height: 1;
+  color: var(--kc, var(--accent));
 }
-.stat-sub { font-size: .75rem; color: var(--text-muted); margin-top: .4rem; }
-.stat-icon {
-  position: absolute; right: 1.2rem; top: 1.1rem;
-  font-size: 1.5rem; opacity: .1;
-}
+.kpi-sub { font-size: .74rem; color: var(--muted); margin-top: .4rem; }
+.kpi-ico { position: absolute; right: 1.1rem; top: 1rem; font-size: 1.55rem; opacity: .1; }
 
-/* ─── Focus mode banner ──────────────────────────────── */
+/* FOCUS BANNER */
 #focusBanner {
-  display: flex; align-items: center; gap: .75rem;
-  background: var(--accent-glow);
-  border: 1px solid var(--accent-border);
-  border-radius: 8px;
-  padding: .65rem 1rem;
-  margin-bottom: 1.25rem;
+  display: none; align-items: center; gap: .7rem;
+  background: var(--accent-soft); border: 1px solid var(--accent-ring);
+  border-radius: 8px; padding: .6rem 1rem; margin-bottom: 1.2rem;
   font-size: .82rem; color: var(--accent);
-  opacity: 0; height: 0; overflow: hidden;
-  transition: opacity var(--transition), height var(--transition), margin var(--transition), padding var(--transition);
 }
-#focusBanner.visible {
-  opacity: 1; height: auto; overflow: visible;
-  padding: .65rem 1rem; margin-bottom: 1.25rem;
-}
+#focusBanner.vis { display: flex; }
 #focusBanner strong { color: var(--text); }
 
-/* ─── Table wrapper ──────────────────────────────────── */
-.table-wrap {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
+/* TABLE */
+.tbl-wrap {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r); overflow: hidden;
 }
-.table-scroll { overflow-x: auto; }
+.tbl-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .83rem; }
 
-table {
-  width: 100%; border-collapse: collapse;
-  font-size: .84rem;
-}
-thead tr {
-  background: var(--surface2);
-  border-bottom: 1px solid var(--border);
-}
+thead tr { background: var(--surface2); border-bottom: 1px solid var(--border); }
 th {
-  padding: .75rem 1rem;
+  padding: .72rem .95rem;
   text-align: left; white-space: nowrap;
-  font-size: .68rem; font-weight: 600; letter-spacing: .09em;
-  text-transform: uppercase; color: var(--text-muted);
+  font-size: .67rem; font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--muted);
   cursor: pointer; user-select: none;
-  transition: color var(--transition), background var(--transition);
   border-right: 1px solid var(--border);
-  position: relative;
+  transition: color var(--tr), background var(--tr);
 }
 th:last-child { border-right: none; }
 th:hover { color: var(--text); background: var(--surface3); }
-th.sorted { color: var(--accent); background: var(--accent-glow); }
-th.col-focus {
+th.sorted { color: var(--accent); background: var(--accent-soft); }
+th.col-hi {
   color: var(--accent) !important;
-  background: var(--accent-glow) !important;
+  background: var(--accent-soft) !important;
 }
-th.col-focus::after {
-  content: '';
-  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
-  background: var(--accent);
+th.col-hi::after {
+  content: ''; display: block; height: 2px;
+  background: var(--accent); margin-top: 4px; border-radius: 2px;
 }
-.sort-icon {
-  display: inline-block; margin-left: .3rem;
-  font-size: .7rem; opacity: .35;
-  transition: opacity var(--transition);
-}
-th.sorted .sort-icon { opacity: 1; }
+.sarr { font-size: .68rem; margin-left: .25rem; opacity: .35; }
+th.sorted .sarr { opacity: 1; }
 
-/* col hidden in focus mode */
-th.col-hidden, td.col-hidden { display: none; }
+th.col-hide, td.col-hide { display: none; }
+td.col-hi { background: rgba(124,134,255,.05); }
 
-/* col highlighted */
-td.col-focus {
-  background: rgba(129,140,248,.05);
-}
-
-tbody tr {
-  border-bottom: 1px solid var(--border);
-  transition: background var(--transition);
-}
+tbody tr { border-bottom: 1px solid var(--border); transition: background var(--tr); }
 tbody tr:last-child { border-bottom: none; }
-tbody tr:hover { background: rgba(129,140,248,.04); }
-tbody tr.row-top td.col-focus { background: rgba(52,211,153,.07); }
+tbody tr:hover { background: rgba(124,134,255,.04); }
 
 td {
-  padding: .68rem 1rem;
+  padding: .65rem .95rem;
   border-right: 1px solid var(--border);
   vertical-align: middle;
 }
 td:last-child { border-right: none; }
 
-.materia-name { font-weight: 500; font-size: .84rem; line-height: 1.3; }
-.materia-tag {
-  font-size: .65rem; font-weight: 600; letter-spacing: .06em;
-  text-transform: uppercase; color: var(--text-muted);
-  margin-top: .1rem;
-}
+/* materia cell */
+.mat-name { font-weight: 500; font-size: .84rem; line-height: 1.3; }
+.mat-tag  { font-size: .65rem; color: var(--muted); margin-top: .08rem; font-weight: 400; }
 
-/* Score badges */
-.score-badge {
+/* score badge */
+.sc {
   display: inline-flex; align-items: center; justify-content: center;
   width: 2rem; height: 2rem; border-radius: 7px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .82rem; font-weight: 600;
+  font-family: 'JetBrains Mono', monospace; font-size: .82rem; font-weight: 600;
 }
-.s-low  { background: var(--red-dim);    color: var(--red); }
-.s-mid  { background: var(--yellow-dim); color: var(--yellow); }
-.s-high { background: var(--green-dim);  color: var(--green); }
-.s-max  { background: var(--accent-glow); color: var(--accent); }
-.s-dash { color: var(--text-muted); font-size: .9rem; }
+.sc-max  { background: var(--accent-soft); color: var(--accent); }
+.sc-hi   { background: var(--green-soft);  color: var(--green); }
+.sc-mid  { background: var(--yellow-soft); color: var(--yellow); }
+.sc-lo   { background: var(--red-soft);    color: var(--red); }
+.sc-dash { color: var(--muted); font-size: .9rem; font-family: 'JetBrains Mono', monospace; }
+.sc-big  { width: 2.6rem; height: 2.6rem; font-size: 1.25rem; border-radius: 9px; }
 
-/* Alert cell background override */
-td.alert-cell { background: var(--red-dim) !important; }
-
-/* Asistencia */
-.asist-row { display: flex; align-items: center; gap: .5rem; }
-.asist-bar-bg {
-  width: 52px; height: 3px; background: var(--border);
-  border-radius: 99px; overflow: hidden; flex-shrink: 0;
-}
-.asist-bar-fill { height: 100%; border-radius: 99px; }
-.asist-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .8rem; color: var(--text-dim);
-}
-
-/* rank badge */
-.rank-badge {
+/* calificacion final — special */
+.cf-cell { background: rgba(52,211,153,.06) !important; }
+.cf-badge {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 1.5rem; height: 1.5rem; border-radius: 5px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: .68rem; font-weight: 700;
-  background: var(--surface3); color: var(--text-muted);
+  width: 2.2rem; height: 2.2rem; border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace; font-size: .9rem; font-weight: 700;
+  border: 1.5px solid currentColor;
 }
-.rank-badge.r1 { background: rgba(251,191,36,.15); color: var(--yellow); }
-.rank-badge.r2 { background: rgba(148,163,184,.1);  color: var(--text-dim); }
-.rank-badge.r3 { background: rgba(180,125,75,.1);   color: #cd853f; }
 
-/* empty state */
-.empty-row td {
-  text-align: center; padding: 3rem;
-  color: var(--text-muted); font-size: .9rem;
-}
+/* alert cell */
+td.alert-bg { background: var(--red-soft) !important; }
+
+/* asistencia */
+.asist-row { display: flex; align-items: center; gap: .45rem; }
+.asist-n { font-family: 'JetBrains Mono', monospace; font-size: .8rem; color: var(--dim); min-width: .8rem; }
+.asist-bar { width: 44px; height: 3px; background: var(--border); border-radius: 99px; overflow: hidden; flex-shrink: 0; }
+.asist-fill { height: 100%; border-radius: 99px; }
+.asist-pct { font-size: .68rem; color: var(--muted); }
+
+/* empty */
+.empty-row td { text-align: center; padding: 3rem; color: var(--muted); font-size: .9rem; }
 
 /* scrollbar */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
-
-/* focus mode: big score cell */
-.focus-big {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 1.5rem; font-weight: 700;
-}
 
 @media (max-width: 640px) {
-  #content { padding: 1.25rem .85rem 2rem; }
-  .stat-value { font-size: 1.65rem; }
-  #topbar { padding: 0 .85rem; gap: .6rem; }
-  .topbar-brand { display: none; }
+  #content { padding: 1.2rem .85rem 3rem; }
+  .brand { display: none; }
+  #topbar { padding: 0 .9rem; gap: .6rem; }
+  .kpi-value { font-size: 1.65rem; }
 }
 </style>
 </head>
 <body>
 
-<!-- Overlay -->
-<div id="overlay"></div>
+<!-- ══ TUTORIAL OVERLAY ════════════════════════════════ -->
+<div id="tutOverlay">
+  <div id="tutCard">
+    <div class="tut-header">
+      <div class="tut-step-dots">
+        <div class="tut-dot" id="d0"></div>
+        <div class="tut-dot" id="d1"></div>
+        <div class="tut-dot" id="d2"></div>
+        <div class="tut-dot" id="d3"></div>
+      </div>
+      <div class="tut-step-label" id="tutStepLabel">Bienvenida</div>
+      <div class="tut-title" id="tutTitle">Bienvenido a tu Boletín Digital</div>
+      <div class="tut-subtitle" id="tutSubtitle">Un recorrido rápido por las funciones principales</div>
+    </div>
+    <div class="tut-body">
+      <span class="tut-icon" id="tutIcon">🎓</span>
+      <div class="tut-desc" id="tutDesc">
+        Este dashboard muestra tus calificaciones del <strong>1° Trimestre</strong> de forma interactiva.
+        Podés explorar notas, filtrar por materia, enfocar columnas específicas y mucho más.<br><br>
+        El tutorial te guiará por las 3 secciones principales en menos de un minuto.
+      </div>
+      <div class="tut-highlight-note" id="tutNote">
+        <strong>Consejo:</strong> Podés omitir este tutorial en cualquier momento y volver a él después.
+      </div>
+    </div>
+    <div class="tut-footer">
+      <button class="btn-skip" id="btnSkip">Omitir Tutorial</button>
+      <button class="btn-next" id="btnNext">Empezar <span>→</span></button>
+    </div>
+  </div>
+</div>
 
-<!-- Sidebar -->
+<!-- ══ SIDEBAR ═════════════════════════════════════════ -->
+<div id="sbOverlay"></div>
 <nav id="sidebar">
-  <div class="sidebar-header">
-    <div class="sidebar-logo">Dashboard Académico</div>
-    <div class="sidebar-title">Mis Notas</div>
-    <div class="sidebar-sub">Primer Trimestre · 2025</div>
+  <div class="sb-head">
+    <div class="sb-eyebrow">Boletín 1° Trim.</div>
+    <div class="sb-title">Mis Calificaciones</div>
+    <div class="sb-sub">12 materias · 2025</div>
   </div>
-
-  <div class="sidebar-section">Ver columna enfocada</div>
-  <div class="sidebar-nav" id="sidebarNav">
-    <div class="nav-item active" data-col="all">
-      <span class="nav-icon">⊞</span>
-      <span class="nav-label">Vista completa</span>
-    </div>
-    <hr class="sidebar-divider">
-    <div class="nav-item" data-col="nota_trimestral">
-      <span class="nav-icon">📋</span>
-      <span class="nav-label">Nota Trimestral</span>
-      <span class="nav-badge" id="avg-nota_trimestral">—</span>
-    </div>
-    <div class="nav-item" data-col="ev_integradora">
-      <span class="nav-icon">📝</span>
-      <span class="nav-label">Ev. Integradora</span>
-      <span class="nav-badge" id="avg-ev_integradora">—</span>
-    </div>
-    <div class="nav-item" data-col="calificacion">
-      <span class="nav-icon">✳️</span>
-      <span class="nav-label">Calificación</span>
-      <span class="nav-badge" id="avg-calificacion">—</span>
-    </div>
-    <div class="nav-item" data-col="diagnostico">
-      <span class="nav-icon">🔬</span>
-      <span class="nav-label">Diagnóstico</span>
-      <span class="nav-badge" id="avg-diagnostico">—</span>
-    </div>
-    <div class="nav-item" data-col="recuperacion">
-      <span class="nav-icon">🔄</span>
-      <span class="nav-label">Recuperación</span>
-      <span class="nav-badge" id="avg-recuperacion">—</span>
-    </div>
-    <div class="nav-item" data-col="inasistencias">
-      <span class="nav-icon">📅</span>
-      <span class="nav-label">Inasistencias</span>
-      <span class="nav-badge" id="avg-inasistencias">—</span>
-    </div>
+  <div class="sb-section-label">Enfocar columna</div>
+  <div class="sb-nav" id="sbNav">
+    <div class="sb-item active" data-col="all"><span class="ico">⊞</span> Vista completa</div>
+    <hr class="sb-divider">
+    <div class="sb-item" data-col="calificacion_final"><span class="ico">🏅</span> Calificación Final 1<span class="sb-badge" id="avg-calificacion_final">—</span></div>
+    <div class="sb-item" data-col="nota_trimestral"><span class="ico">📋</span> Nota Trimestral<span class="sb-badge" id="avg-nota_trimestral">—</span></div>
+    <div class="sb-item" data-col="ev_integradora"><span class="ico">📝</span> Ev. Integradora<span class="sb-badge" id="avg-ev_integradora">—</span></div>
+    <div class="sb-item" data-col="calificacion"><span class="ico">✳️</span> Calificación<span class="sb-badge" id="avg-calificacion">—</span></div>
+    <div class="sb-item" data-col="diagnostico"><span class="ico">🔬</span> Diagnóstico<span class="sb-badge" id="avg-diagnostico">—</span></div>
+    <div class="sb-item" data-col="recuperacion"><span class="ico">🔄</span> Recuperación<span class="sb-badge" id="avg-recuperacion">—</span></div>
+    <div class="sb-item" data-col="inasistencias"><span class="ico">📅</span> Inasistencias<span class="sb-badge" id="avg-inasistencias">—</span></div>
   </div>
-  <div class="sidebar-footer">
-    <strong>12 materias</strong> · Ordenadas automáticamente de mayor a menor al seleccionar
-  </div>
+  <div class="sb-footer">Seleccioná una columna para ordenar y enfocar</div>
 </nav>
 
-<!-- Main -->
+<!-- ══ MAIN ════════════════════════════════════════════ -->
 <div id="main">
-  <!-- Topbar -->
   <header id="topbar">
-    <button id="hamburger" aria-label="Abrir menú" aria-expanded="false">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
+    <button id="burgerBtn" aria-label="Abrir menú" aria-expanded="false">
+      <span class="b"></span><span class="b"></span><span class="b"></span>
     </button>
-    <div class="topbar-brand">Mis <span>Calificaciones</span></div>
+    <div class="brand">Mis <span>Notas</span></div>
     <div class="search-wrap">
-      <span class="search-ico">🔍</span>
-      <input class="search-input" id="searchInput" type="text" placeholder="Buscar materia…" autocomplete="off">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="searchInput" class="" type="text" placeholder="Buscar materia…" autocomplete="off">
     </div>
-    <div class="topbar-focus-pill" id="focusPill">
-      <span class="pill-close" id="pillClose">✕</span>
-      <span id="pillLabel">Vista completa</span>
+    <div class="focus-pill" id="focusPill">
+      <span class="pill-x" id="pillX">✕</span>
+      <span id="pillLabel">—</span>
     </div>
-    <div class="result-count" id="resultCount"></div>
+    <div id="rowCount"></div>
   </header>
 
-  <!-- Content -->
   <main id="content">
-    <!-- Stats -->
     <div class="stats-grid" id="statsGrid"></div>
 
-    <!-- Focus banner -->
     <div id="focusBanner">
       <span>🎯</span>
-      <span>Vista enfocada en <strong id="bannerCol">—</strong> · ordenada de mayor a menor</span>
+      <span>Vista enfocada en <strong id="bannerLabel">—</strong> · ordenada de mayor a menor</span>
     </div>
 
-    <!-- Table -->
-    <div class="table-wrap">
-      <div class="table-scroll">
+    <div class="tbl-wrap" id="tblWrap">
+      <div class="tbl-scroll">
         <table>
-          <thead><tr id="tableHead"></tr></thead>
-          <tbody id="tableBody"></tbody>
+          <thead><tr id="thead"></tr></thead>
+          <tbody id="tbody"></tbody>
         </table>
       </div>
     </div>
@@ -525,290 +529,403 @@ td.alert-cell { background: var(--red-dim) !important; }
 </div>
 
 <script>
+/* ══════════════════════════════════════════
+   DATA
+══════════════════════════════════════════ */
 const DATA = [
-  { materia:"LENGUA Y LITERATURA III",     inasistencias:2, clases:35, diagnostico:7,  calificacion:7,  ev_integradora:3,  nota_trimestral:6,  recuperacion:7  },
-  { materia:"LENGUA EXTRANJERA III",        inasistencias:3, clases:34, diagnostico:8,  calificacion:6,  ev_integradora:6,  nota_trimestral:7,  recuperacion:"" },
-  { materia:"MATEMATICA III",               inasistencias:0, clases:44, diagnostico:6,  calificacion:7,  ev_integradora:7,  nota_trimestral:7,  recuperacion:"" },
-  { materia:"HISTORIA III",                 inasistencias:0, clases:18, diagnostico:8,  calificacion:10, ev_integradora:10, nota_trimestral:9,  recuperacion:"" },
-  { materia:"GEOGRAFIA III",                inasistencias:0, clases:32, diagnostico:10, calificacion:9,  ev_integradora:6,  nota_trimestral:8,  recuperacion:"" },
-  { materia:"BIOLOGIA III",                 inasistencias:0, clases:10, diagnostico:9,  calificacion:9,  ev_integradora:9,  nota_trimestral:9,  recuperacion:"" },
-  { materia:"CONSTRUCCION DE CIUDADANIA",   inasistencias:0, clases:23, diagnostico:8,  calificacion:9,  ev_integradora:10, nota_trimestral:9,  recuperacion:"" },
-  { materia:"QUIMICA II",                   inasistencias:2, clases:35, diagnostico:10, calificacion:10, ev_integradora:8,  nota_trimestral:9,  recuperacion:"" },
-  { materia:"ED. ARTISTICA III",            inasistencias:1, clases:20, diagnostico:10, calificacion:10, ev_integradora:10, nota_trimestral:10, recuperacion:"" },
-  { materia:"ED. TECNOLOGICA II",           inasistencias:0, clases:24, diagnostico:8,  calificacion:8,  ev_integradora:8,  nota_trimestral:8,  recuperacion:"" },
-  { materia:"ED. FISICA III",               inasistencias:0, clases:6,  diagnostico:7,  calificacion:10, ev_integradora:6,  nota_trimestral:8,  recuperacion:"" },
-  { materia:"FORMACION ETICA III / RELIGION",inasistencias:0,clases:9,  diagnostico:7,  calificacion:6,  ev_integradora:6,  nota_trimestral:6,  recuperacion:"" },
+  { materia:"LENGUA Y LITERATURA III",      in:2, cl:35, dg:7,  ca:7,  ev:3,  nt:6,  rc:7,  cf:6  },
+  { materia:"LENGUA EXTRANJERA III",         in:3, cl:34, dg:8,  ca:6,  ev:6,  nt:7,  rc:"", cf:7  },
+  { materia:"MATEMATICA III",                in:0, cl:44, dg:6,  ca:7,  ev:7,  nt:7,  rc:"", cf:7  },
+  { materia:"HISTORIA III",                  in:0, cl:18, dg:8,  ca:10, ev:10, nt:9,  rc:"", cf:9  },
+  { materia:"GEOGRAFIA III",                 in:0, cl:32, dg:10, ca:9,  ev:6,  nt:8,  rc:"", cf:8  },
+  { materia:"BIOLOGIA III",                  in:0, cl:10, dg:9,  ca:9,  ev:9,  nt:9,  rc:"", cf:9  },
+  { materia:"CONSTRUCCION DE CIUDADANIA",    in:0, cl:23, dg:8,  ca:9,  ev:10, nt:9,  rc:"", cf:9  },
+  { materia:"QUIMICA II",                    in:2, cl:35, dg:10, ca:10, ev:8,  nt:9,  rc:"", cf:9  },
+  { materia:"ED. ARTISTICA III",             in:1, cl:20, dg:10, ca:10, ev:10, nt:10, rc:"", cf:10 },
+  { materia:"ED. TECNOLOGICA II",            in:0, cl:24, dg:8,  ca:8,  ev:8,  nt:8,  rc:"", cf:8  },
+  { materia:"ED. FISICA III",                in:0, cl:6,  dg:7,  ca:10, ev:6,  nt:8,  rc:"", cf:8  },
+  { materia:"FORMACION ETICA III / RELIGION",in:0, cl:9,  dg:7,  ca:6,  ev:6,  nt:6,  rc:"", cf:6  },
 ];
 
-// column definitions
-const ALL_COLS = [
-  { key:'rank',          label:'#',              type:'rank',    sortable:false },
-  { key:'materia',       label:'Materia',        type:'materia', sortable:true  },
-  { key:'inasistencias', label:'Inasistencias',  type:'asist',   sortable:true  },
-  { key:'diagnostico',   label:'Diagnóstico',    type:'score',   sortable:true  },
-  { key:'calificacion',  label:'Calificación',   type:'score',   sortable:true  },
-  { key:'ev_integradora',label:'Ev. Integradora',type:'score-alert', sortable:true },
-  { key:'nota_trimestral',label:'Nota Trimestral',type:'score-alert',sortable:true },
-  { key:'recuperacion',  label:'Recuperación',  type:'score',   sortable:false },
-];
-
-const SCORE_COLS = ['nota_trimestral','ev_integradora','calificacion','diagnostico','recuperacion','inasistencias'];
-const COL_LABELS = {
-  nota_trimestral:'Nota Trimestral', ev_integradora:'Ev. Integradora',
-  calificacion:'Calificación', diagnostico:'Diagnóstico',
-  recuperacion:'Recuperación', inasistencias:'Inasistencias'
+const KEY_MAP = {
+  calificacion_final:'cf', nota_trimestral:'nt', ev_integradora:'ev',
+  calificacion:'ca', diagnostico:'dg', recuperacion:'rc', inasistencias:'in'
+};
+const COL_LABEL = {
+  calificacion_final:'Calificación Final 1', nota_trimestral:'Nota Trimestral',
+  ev_integradora:'Ev. Integradora', calificacion:'Calificación',
+  diagnostico:'Diagnóstico', recuperacion:'Recuperación', inasistencias:'Inasistencias'
 };
 
-let focusCol = 'all';   // 'all' or col key
-let sortColIdx = null;
-let sortDir = -1;
-let filterText = '';
+/* ── column defs ── */
+const COLS = [
+  { key:'materia',           label:'Materia',             type:'mat',     sort:true  },
+  { key:'inasistencias',     label:'Inasistencias',       type:'asist',   sort:true  },
+  { key:'diagnostico',       label:'Diagnóstico',         type:'score',   sort:true  },
+  { key:'calificacion',      label:'Calificación',        type:'score',   sort:true  },
+  { key:'ev_integradora',    label:'Ev. Integradora',     type:'alert',   sort:true  },
+  { key:'nota_trimestral',   label:'Nota Trimestral',     type:'alert',   sort:true  },
+  { key:'recuperacion',      label:'Recuperación',        type:'score',   sort:false },
+  { key:'calificacion_final',label:'Calificación Final 1',type:'cf',      sort:true  },
+];
 
-// ── Sidebar averages ──────────────────────────────────
-function fillSidebarBadges() {
-  SCORE_COLS.forEach(key => {
-    const vals = DATA.map(d => d[key]).filter(v => v !== "" && v != null);
-    const el = document.getElementById('avg-' + key);
-    if (!el) return;
-    if (key === 'inasistencias') {
-      el.textContent = vals.reduce((a,b)=>a+b,0);
-    } else {
-      el.textContent = vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1) : '—';
-    }
-  });
+/* ── state ── */
+let focusCol = 'all', sortKey = null, sortDir = -1, filterQ = '';
+
+/* ══════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════ */
+function val(row, colKey) {
+  const k = KEY_MAP[colKey] || colKey;
+  return row[k];
 }
 
-// ── Stats cards ───────────────────────────────────────
-function buildStats() {
-  const notas = DATA.map(d=>d.nota_trimestral).filter(v=>v!=="");
-  const avg = (notas.reduce((a,b)=>a+b,0)/notas.length).toFixed(2);
-  const totalInasist = DATA.reduce((a,d)=>a+d.inasistencias,0);
-  const best = DATA.reduce((a,b)=>b.nota_trimestral>a.nota_trimestral?b:a);
-  const avgN = parseFloat(avg);
-  const avgColor = avgN>=8?'var(--green)':avgN>=6?'var(--yellow)':'var(--red)';
-  const inColor = totalInasist===0?'var(--green)':totalInasist<=3?'var(--yellow)':'var(--red)';
-
-  const cards = [
-    { label:'Promedio General', value:avg, color:avgColor, sub:'sobre 12 materias', icon:'📊' },
-    { label:'Total Inasistencias', value:totalInasist, color:inColor, sub:'en todo el trimestre', icon:'📅' },
-    { label:'Materia Destacada', value:best.nota_trimestral, color:'var(--green)',
-      sub: best.materia.split(' ').slice(0,2).join(' ').toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()), icon:'🏆' },
-  ];
-
-  document.getElementById('statsGrid').innerHTML = cards.map(c=>`
-    <div class="stat-card" style="--card-accent:${c.color}">
-      <div class="stat-icon">${c.icon}</div>
-      <div class="stat-label">${c.label}</div>
-      <div class="stat-value">${c.value}</div>
-      <div class="stat-sub">${c.sub}</div>
-    </div>`).join('');
+function scoreBadge(v, big=false) {
+  if (v === "" || v == null) return `<span class="sc-dash">—</span>`;
+  const n = Number(v);
+  const cls = n===10?'sc-max':n>=8?'sc-hi':n>=6?'sc-mid':'sc-lo';
+  return `<span class="sc ${cls}${big?' sc-big':''}">${n}</span>`;
 }
 
-// ── Score badge ───────────────────────────────────────
-function badge(val, large=false) {
-  if (val===""||val==null) return `<span class="s-dash">—</span>`;
-  const n=Number(val);
-  const cls = n===10?'s-max':n>=8?'s-high':n>=6?'s-mid':'s-low';
-  if (large) return `<span class="score-badge ${cls} focus-big">${n}</span>`;
-  return `<span class="score-badge ${cls}">${n}</span>`;
+function cfBadge(v) {
+  if (v===""||v==null) return `<span class="sc-dash">—</span>`;
+  const n=Number(v);
+  const cls=n===10?'sc-max':n>=8?'sc-hi':n>=6?'sc-mid':'sc-lo';
+  return `<span class="cf-badge ${cls}">${n}</span>`;
 }
 
-// ── Asistencia cell ───────────────────────────────────
 function asistCell(row) {
-  const pct = Math.round(((row.clases-row.inasistencias)/row.clases)*100);
-  const color = pct===100?'var(--green)':pct>=90?'var(--yellow)':'var(--red)';
+  const pct = Math.round(((row.cl - row.in) / row.cl) * 100);
+  const c = pct===100?'var(--green)':pct>=90?'var(--yellow)':'var(--red)';
   return `<div class="asist-row">
-    <span class="asist-num">${row.inasistencias}</span>
-    <div class="asist-bar-bg"><div class="asist-bar-fill" style="width:${pct}%;background:${color}"></div></div>
-    <span class="asist-num" style="font-size:.7rem;color:var(--text-muted)">${pct}%</span>
+    <span class="asist-n">${row.in}</span>
+    <div class="asist-bar"><div class="asist-fill" style="width:${pct}%;background:${c}"></div></div>
+    <span class="asist-pct">${pct}%</span>
   </div>`;
 }
 
-// ── Get visible cols ──────────────────────────────────
-function getVisibleCols() {
-  if (focusCol === 'all') return ALL_COLS;
-  return ALL_COLS.filter(c => c.key==='rank' || c.key==='materia' || c.key===focusCol);
+/* ══════════════════════════════════════════
+   SIDEBAR BADGES
+══════════════════════════════════════════ */
+function fillSbBadges() {
+  Object.keys(COL_LABEL).forEach(k => {
+    const el = document.getElementById('avg-' + k);
+    if (!el) return;
+    const mk = KEY_MAP[k] || k;
+    const vals = DATA.map(d=>d[mk]).filter(v=>v!==""&&v!=null);
+    if (k==='inasistencias') el.textContent = vals.reduce((a,b)=>a+b,0);
+    else el.textContent = vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1) : '—';
+  });
 }
 
-// ── Get sorted+filtered rows ──────────────────────────
-function getRows(ranked=false) {
-  let rows = DATA.map((d,i)=>({...d, _orig:i}));
+/* ══════════════════════════════════════════
+   STATS
+══════════════════════════════════════════ */
+function buildStats() {
+  const finals = DATA.map(d=>d.cf);
+  const avg = (finals.reduce((a,b)=>a+b,0)/finals.length).toFixed(2);
+  const totalIn = DATA.reduce((a,d)=>a+d.in, 0);
+  const best = DATA.reduce((a,b)=>b.cf>a.cf?b:a);
+  const lows = DATA.filter(d=>d.ev<6||d.nt<6).length;
+  const avgN = parseFloat(avg);
+  const ac = avgN>=8?'var(--green)':avgN>=6?'var(--yellow)':'var(--red)';
+  const ic = totalIn===0?'var(--green)':totalIn<=3?'var(--yellow)':'var(--red)';
 
-  // focus col → sort by that col desc first
+  const cards = [
+    { label:'Promedio Final',      value:avg,   c:ac,            sub:'promedio de Calif. Final 1', ico:'📊' },
+    { label:'Total Inasistencias', value:totalIn,c:ic,           sub:'en todas las materias',      ico:'📅' },
+    { label:'Materia Destacada',   value:best.cf,c:'var(--green)',sub:best.materia.split(' ').slice(0,2).join(' ').toLowerCase().replace(/\b\w/g,x=>x.toUpperCase()), ico:'🏆' },
+    { label:'Notas Bajas',         value:lows,   c:lows?'var(--red)':'var(--green)', sub:'notas < 6 en Ev. o Trimestral', ico:'⚠️' },
+  ];
+
+  document.getElementById('statsGrid').innerHTML = cards.map(c=>`
+    <div class="kpi" style="--kc:${c.c}">
+      <div class="kpi-ico">${c.ico}</div>
+      <div class="kpi-label">${c.label}</div>
+      <div class="kpi-value">${c.value}</div>
+      <div class="kpi-sub">${c.sub}</div>
+    </div>`).join('');
+}
+
+/* ══════════════════════════════════════════
+   TABLE
+══════════════════════════════════════════ */
+function visCols() {
+  if (focusCol==='all') return COLS;
+  return COLS.filter(c=>c.key==='materia'||c.key===focusCol);
+}
+
+function getRows() {
+  let rows = DATA.slice();
+
   if (focusCol !== 'all') {
+    const mk = KEY_MAP[focusCol]||focusCol;
     rows.sort((a,b)=>{
-      const av=a[focusCol], bv=b[focusCol];
+      const av=a[mk], bv=b[mk];
       if(av===""||av==null) return 1;
       if(bv===""||bv==null) return -1;
       return bv - av;
     });
-    rows = rows.map((r,i)=>({...r, _rank:i+1}));
-  } else if (sortColIdx !== null) {
-    const key = ALL_COLS[sortColIdx].key;
+  } else if (sortKey) {
+    const mk = KEY_MAP[sortKey]||sortKey;
     rows.sort((a,b)=>{
-      const av=a[key], bv=b[key];
-      if(av===""||av==null) return 1;
-      if(bv===""||bv==null) return -1;
-      return typeof av==='number' ? (av-bv)*sortDir : String(av).localeCompare(String(bv),'es')*sortDir;
+      const av=a[mk],bv=b[mk];
+      if(av===""||av==null)return 1;
+      if(bv===""||bv==null)return -1;
+      return typeof av==='number'?(av-bv)*sortDir:String(av).localeCompare(String(bv),'es')*sortDir;
     });
   }
 
-  if (filterText) {
-    const q = filterText.toLowerCase();
-    rows = rows.filter(r=>r.materia.toLowerCase().includes(q));
+  if (filterQ) {
+    const q=filterQ.toLowerCase();
+    rows=rows.filter(r=>r.materia.toLowerCase().includes(q));
   }
   return rows;
 }
 
-// ── Build table head ──────────────────────────────────
 function buildHead() {
-  const visCols = getVisibleCols();
-  document.getElementById('tableHead').innerHTML = visCols.map((c,i)=>{
+  const vc = visCols();
+  document.getElementById('thead').innerHTML = vc.map(c=>{
     const isFocus = focusCol!=='all' && c.key===focusCol;
-    const isSorted = sortColIdx!==null && ALL_COLS[sortColIdx].key===c.key;
-    const arrow = c.sortable ? `<span class="sort-icon">${isSorted?(sortDir===-1?'↓':'↑'):'↕'}</span>` : '';
-    const cls = [isFocus?'col-focus':'', isSorted&&!isFocus?'sorted':''].filter(Boolean).join(' ');
-    return `<th class="${cls}" onclick="handleColSort('${c.key}')">${c.label}${arrow}</th>`;
+    const isSorted= sortKey===c.key && focusCol==='all';
+    let cls = isFocus?'col-hi':isSorted?'sorted':'';
+    const arr = c.sort ? `<span class="sarr">${isSorted?(sortDir===-1?'↓':'↑'):'↕'}</span>` : '';
+    return `<th class="${cls}" data-key="${c.key}">${c.label}${arr}</th>`;
   }).join('');
 }
 
-// ── Build table body ──────────────────────────────────
 function buildBody() {
   const rows = getRows();
-  const visCols = getVisibleCols();
-  const tbody = document.getElementById('tableBody');
-  const total = DATA.length;
-  document.getElementById('resultCount').textContent =
-    rows.length===total ? `${total} materias` : `${rows.length} de ${total}`;
+  const vc = visCols();
+  document.getElementById('rowCount').textContent =
+    rows.length===DATA.length?`${DATA.length} materias`:`${rows.length} de ${DATA.length}`;
 
   if (!rows.length) {
-    tbody.innerHTML = `<tr class="empty-row"><td colspan="${visCols.length}">Sin resultados para "<strong>${filterText}</strong>"</td></tr>`;
+    document.getElementById('tbody').innerHTML =
+      `<tr class="empty-row"><td colspan="${vc.length}">Sin resultados para "<strong>${filterQ}</strong>"</td></tr>`;
     return;
   }
 
-  tbody.innerHTML = rows.map((row,rowIdx)=>{
-    const isTop = focusCol!=='all' && rowIdx===0;
-    const cells = visCols.map(c=>{
-      if (c.key==='rank') {
-        const r = row._rank;
-        const rankCls = r===1?'r1':r===2?'r2':r===3?'r3':'';
-        const val = focusCol!=='all' ? `<span class="rank-badge ${rankCls}">${r??rowIdx+1}</span>` : '';
-        return `<td style="width:2.5rem;text-align:center">${val}</td>`;
-      }
+  document.getElementById('tbody').innerHTML = rows.map(row=>{
+    const cells = vc.map(c=>{
+      const isFocusCel = focusCol!=='all' && c.key===focusCol;
+
       if (c.key==='materia') {
-        const parts = row.materia.split(' ');
-        const suffix = parts[parts.length-1];
-        const base = /^(I|II|III|IV|V|VI)$/.test(suffix) ? parts.slice(0,-1).join(' ') : row.materia;
-        const tag = /^(I|II|III|IV|V|VI)$/.test(suffix) ? suffix : '';
-        return `<td><div class="materia-name">${base}</div>${tag?`<div class="materia-tag">${tag}</div>`:''}</td>`;
+        const p = row.materia.split(' ');
+        const suf = /^(I|II|III|IV|V|VI)$/.test(p[p.length-1]) ? p.pop() : '';
+        return `<td><div class="mat-name">${p.join(' ')}</div>${suf?`<div class="mat-tag">${suf}</div>`:''}</td>`;
       }
       if (c.key==='inasistencias') {
-        const isFocusCel = focusCol===c.key;
-        return `<td class="${isFocusCel?'col-focus':''}">${
-          isFocusCel
-            ? `<span class="score-badge ${row.inasistencias===0?'s-high':row.inasistencias<=2?'s-mid':'s-low'} focus-big">${row.inasistencias}</span>`
-            : asistCell(row)
-        }</td>`;
+        const isFc = isFocusCel;
+        return `<td class="${isFc?'col-hi':''}">${isFc
+          ? scoreBadge(row.in, true)
+          : asistCell(row)}</td>`;
       }
-      const val = row[c.key];
-      const isFocusCel = focusCol!=='all' && c.key===focusCol;
-      const isAlert = (c.type==='score-alert') && val!==""&&val!=null && Number(val)<6;
-      const content = isFocusCel ? badge(val, true) : badge(val);
-      return `<td class="${[isFocusCel?'col-focus':'', isAlert&&!isFocusCel?'alert-cell':''].filter(Boolean).join(' ')}">${content}</td>`;
+      if (c.key==='calificacion_final') {
+        return `<td class="cf-cell${isFocusCel?' col-hi':''}">${cfBadge(row.cf)}</td>`;
+      }
+
+      const mk = KEY_MAP[c.key]||c.key;
+      const v = row[mk];
+      const isAlert = (c.type==='alert') && v!==""&&v!=null && Number(v)<6;
+      let tdCls = [isFocusCel?'col-hi':'', isAlert&&!isFocusCel?'alert-bg':''].filter(Boolean).join(' ');
+      const content = isFocusCel ? scoreBadge(v, true) : scoreBadge(v);
+      return `<td class="${tdCls}">${content}</td>`;
     }).join('');
-    return `<tr class="${isTop?'row-top':''}">${cells}</tr>`;
+    return `<tr>${cells}</tr>`;
   }).join('');
 }
 
-// ── Focus banner & pill ───────────────────────────────
 function updateFocusUI() {
-  const banner = document.getElementById('focusBanner');
-  const pill   = document.getElementById('focusPill');
-  const bannerCol = document.getElementById('bannerCol');
-  const pillLabel = document.getElementById('pillLabel');
-
-  if (focusCol !== 'all') {
-    const label = COL_LABELS[focusCol] || focusCol;
-    banner.classList.add('visible');
-    pill.classList.add('visible');
-    bannerCol.textContent = label;
-    pillLabel.textContent = label;
+  const b = document.getElementById('focusBanner');
+  const p = document.getElementById('focusPill');
+  if (focusCol!=='all') {
+    const label = COL_LABEL[focusCol]||focusCol;
+    b.classList.add('vis');
+    p.classList.add('vis');
+    document.getElementById('bannerLabel').textContent = label;
+    document.getElementById('pillLabel').textContent = label;
   } else {
-    banner.classList.remove('visible');
-    pill.classList.remove('visible');
+    b.classList.remove('vis');
+    p.classList.remove('vis');
   }
 }
 
-// ── Render ────────────────────────────────────────────
-function render() {
-  buildHead();
-  buildBody();
-  updateFocusUI();
+function render() { buildHead(); buildBody(); updateFocusUI(); }
+
+/* ══════════════════════════════════════════
+   SIDEBAR
+══════════════════════════════════════════ */
+const sbOverlay = document.getElementById('sbOverlay');
+const sidebar   = document.getElementById('sidebar');
+const burgerBtn = document.getElementById('burgerBtn');
+
+function openSb() {
+  sidebar.classList.add('open');
+  sbOverlay.classList.add('show');
+  burgerBtn.classList.add('open');
+  burgerBtn.setAttribute('aria-expanded','true');
+}
+function closeSb() {
+  sidebar.classList.remove('open');
+  sbOverlay.classList.remove('show');
+  burgerBtn.classList.remove('open');
+  burgerBtn.setAttribute('aria-expanded','false');
 }
 
-// ── Handlers ──────────────────────────────────────────
-function handleColSort(key) {
-  if (key==='rank'||key==='materia') {
-    if (focusCol!=='all') return; // in focus mode, materia col is just for display
-    const idx = ALL_COLS.findIndex(c=>c.key===key);
-    if (idx<0||!ALL_COLS[idx].sortable) return;
-    if (sortColIdx===idx) sortDir*=-1; else { sortColIdx=idx; sortDir=1; }
-    render(); return;
-  }
-  if (focusCol!=='all') return;
-  const idx = ALL_COLS.findIndex(c=>c.key===key);
-  if (idx<0||!ALL_COLS[idx].sortable) return;
-  if (sortColIdx===idx) sortDir*=-1; else { sortColIdx=idx; sortDir=-1; }
-  render();
-}
+burgerBtn.addEventListener('click', ()=>sidebar.classList.contains('open')?closeSb():openSb());
+sbOverlay.addEventListener('click', closeSb);
 
-// sidebar nav
-document.getElementById('sidebarNav').addEventListener('click', e=>{
-  const item = e.target.closest('.nav-item');
+document.getElementById('sbNav').addEventListener('click', e=>{
+  const item = e.target.closest('.sb-item');
   if (!item) return;
   const col = item.dataset.col;
-  focusCol = col;
-  sortColIdx = null;
-  document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active', el.dataset.col===col));
-  closeSidebar();
+  focusCol = col; sortKey = null;
+  document.querySelectorAll('.sb-item').forEach(el=>el.classList.toggle('active',el.dataset.col===col));
+  closeSb(); render();
+});
+
+/* col sort from thead */
+document.getElementById('thead').addEventListener('click', e=>{
+  const th = e.target.closest('th'); if (!th) return;
+  const key = th.dataset.key;
+  if (!key||key==='materia'&&focusCol!=='all') return;
+  const colDef = COLS.find(c=>c.key===key);
+  if (!colDef||!colDef.sort||focusCol!=='all') return;
+  if (sortKey===key) sortDir*=-1; else { sortKey=key; sortDir=-1; }
   render();
 });
 
-// hamburger
-const hamburger = document.getElementById('hamburger');
-const sidebar   = document.getElementById('sidebar');
-const overlay   = document.getElementById('overlay');
-
-function openSidebar() {
-  sidebar.classList.add('open');
-  overlay.classList.add('active');
-  hamburger.classList.add('open');
-  hamburger.setAttribute('aria-expanded','true');
-}
-function closeSidebar() {
-  sidebar.classList.remove('open');
-  overlay.classList.remove('active');
-  hamburger.classList.remove('open');
-  hamburger.setAttribute('aria-expanded','false');
-}
-hamburger.addEventListener('click', ()=> sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
-overlay.addEventListener('click', closeSidebar);
-
-// reset focus pill
-document.getElementById('pillClose').addEventListener('click', ()=>{
+document.getElementById('pillX').addEventListener('click', ()=>{
   focusCol='all';
-  document.querySelectorAll('.nav-item').forEach(el=>el.classList.toggle('active', el.dataset.col==='all'));
+  document.querySelectorAll('.sb-item').forEach(el=>el.classList.toggle('active',el.dataset.col==='all'));
   render();
 });
 
-// search
 document.getElementById('searchInput').addEventListener('input', e=>{
-  filterText = e.target.value.trim();
-  render();
+  filterQ = e.target.value.trim(); render();
 });
 
-// ── Init ──────────────────────────────────────────────
-fillSidebarBadges();
+/* ══════════════════════════════════════════
+   TUTORIAL
+══════════════════════════════════════════ */
+const STEPS = [
+  {
+    label: 'Bienvenida', step: '0 / 3',
+    title: 'Bienvenido a tu Boletín Digital',
+    subtitle: 'Un recorrido rápido por las funciones principales',
+    icon: '🎓',
+    desc: `Este dashboard muestra tus calificaciones del <strong>1° Trimestre</strong> de forma interactiva.
+           Podés explorar notas, filtrar por materia, enfocar columnas específicas y mucho más.<br><br>
+           El tutorial te guiará por las 3 secciones en menos de un minuto.`,
+    note: `<strong>Consejo:</strong> Podés omitir el tutorial en cualquier momento.`,
+    target: null, btnLabel: 'Empezar →'
+  },
+  {
+    label: 'Paso 1 / 3', step: '1 / 3',
+    title: 'Panel de KPIs',
+    subtitle: 'Tus estadísticas generales de un vistazo',
+    icon: '📊',
+    desc: `Las <strong>4 tarjetas superiores</strong> calculan automáticamente:<br><br>
+           · <strong>Promedio Final</strong> de todas las Calificaciones Finales<br>
+           · <strong>Total de inasistencias</strong> acumuladas<br>
+           · <strong>Materia Destacada</strong> con la nota más alta<br>
+           · <strong>Notas Bajas</strong> (alertas con nota menor a 6)`,
+    note: `<strong>Los colores cambian</strong> según el rendimiento: verde = bien, amarillo = regular, rojo = atención.`,
+    target: 'statsGrid', btnLabel: 'Siguiente →'
+  },
+  {
+    label: 'Paso 2 / 3', step: '2 / 3',
+    title: 'Buscador y Menú de Columnas',
+    subtitle: 'Filtrá y enfocá lo que necesitás ver',
+    icon: '🔍',
+    desc: `· <strong>Barra de búsqueda:</strong> escribí el nombre de una materia y la tabla se filtra en tiempo real.<br><br>
+           · <strong>Menú ☰ (tres rayitas):</strong> abrí el panel lateral para seleccionar una columna específica como <em>Ev. Integradora</em> o <em>Diagnóstico</em>. La tabla mostrará solo esa columna, ordenada de mayor a menor.`,
+    note: `<strong>Modo enfocado:</strong> aparece una pastilla en la barra superior indicando qué columna estás viendo. Hacé clic en ✕ para volver a la vista completa.`,
+    target: 'topbar', btnLabel: 'Siguiente →'
+  },
+  {
+    label: 'Paso 3 / 3', step: '3 / 3',
+    title: 'Tabla de Calificaciones',
+    subtitle: 'Todas tus notas en detalle',
+    icon: '📋',
+    desc: `La tabla muestra todas las columnas de tu boletín:<br><br>
+           · La última columna, <strong>Calificación Final 1</strong>, es la nota oficial del trimestre.<br>
+           · Las notas <strong>menores a 6</strong> en "Ev. Integradora" y "Nota Trimestral" se marcan automáticamente con un <span style="color:var(--red)">fondo rojizo</span>.<br>
+           · Los campos sin recuperación muestran un guión <strong>—</strong> para mantener la vista limpia.`,
+    note: `<strong>Hacé clic en cualquier encabezado</strong> de columna para ordenar la tabla de mayor a menor (o viceversa).`,
+    target: 'tblWrap', btnLabel: '¡Listo! Empezar'
+  }
+];
+
+let tutStep = 0;
+let prevTarget = null;
+
+function applySpotlight(targetId) {
+  if (prevTarget) {
+    const el = document.getElementById(prevTarget);
+    if (el) el.classList.remove('tut-spotlight');
+  }
+  if (targetId) {
+    const el = document.getElementById(targetId);
+    if (el) {
+      el.classList.add('tut-spotlight');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    prevTarget = targetId;
+  } else {
+    prevTarget = null;
+  }
+}
+
+function setTutStep(i) {
+  const s = STEPS[i];
+  const isLast = i === STEPS.length - 1;
+
+  // dots
+  for (let j=0; j<STEPS.length; j++) {
+    const dot = document.getElementById('d' + j);
+    dot.classList.remove('active','done');
+    if (j < i) dot.classList.add('done');
+    else if (j === i) dot.classList.add('active');
+  }
+
+  document.getElementById('tutStepLabel').textContent = s.label;
+  document.getElementById('tutTitle').textContent = s.title;
+  document.getElementById('tutSubtitle').textContent = s.subtitle;
+  document.getElementById('tutIcon').textContent = s.icon;
+  document.getElementById('tutDesc').innerHTML = s.desc;
+  document.getElementById('tutNote').innerHTML = s.note;
+  document.getElementById('btnNext').innerHTML = s.btnLabel;
+
+  applySpotlight(s.target);
+
+  if (isLast) {
+    document.getElementById('btnNext').onclick = closeTutorial;
+  } else {
+    document.getElementById('btnNext').onclick = () => { tutStep++; setTutStep(tutStep); };
+  }
+}
+
+function closeTutorial() {
+  if (prevTarget) {
+    const el = document.getElementById(prevTarget);
+    if (el) el.classList.remove('tut-spotlight');
+    prevTarget = null;
+  }
+  const ov = document.getElementById('tutOverlay');
+  ov.classList.add('hidden');
+  setTimeout(()=>ov.style.display='none', 300);
+}
+
+document.getElementById('btnSkip').addEventListener('click', closeTutorial);
+setTutStep(0);
+document.getElementById('btnNext').onclick = ()=>{ tutStep=1; setTutStep(1); };
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+fillSbBadges();
 buildStats();
 render();
 </script>
